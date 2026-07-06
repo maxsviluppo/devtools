@@ -1,8 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
+  const pathname = usePathname();
+  const isHome = pathname === '/';
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -33,21 +36,21 @@ export default function Header() {
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="header-container">
-        <a href="#" className="logo">
-          <span className="logo-text">DEV<span className="accent-color">TOOLS</span></span>
+        <a href={isHome ? '#' : '/'} className="logo">
+          <img src="/logoorizzontaledevtools.png" alt="DevTools Logo" className="logo-img" />
         </a>
 
         {/* Desktop Nav */}
         <nav className="desktop-nav">
           {navLinks.map((link) => (
-            <a key={link.name} href={link.href} className="nav-link">
+            <a key={link.name} href={isHome ? link.href : '/' + link.href} className="nav-link">
               {link.name}
             </a>
           ))}
         </nav>
 
         <div className="header-actions">
-          <a href="#contatti" className="btn-cta">
+          <a href={isHome ? '#contatti' : '/#contatti'} className="btn-cta">
             Contattaci
           </a>
           <button 
@@ -68,7 +71,7 @@ export default function Header() {
           {navLinks.map((link) => (
             <a 
               key={link.name} 
-              href={link.href} 
+              href={isHome ? link.href : '/' + link.href} 
               className="mobile-nav-link"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -76,7 +79,7 @@ export default function Header() {
             </a>
           ))}
           <a 
-            href="#contatti" 
+            href={isHome ? '#contatti' : '/#contatti'} 
             className="btn-cta mobile-cta"
             onClick={() => setIsMobileMenuOpen(false)}
           >
@@ -95,14 +98,15 @@ export default function Header() {
           transition: var(--transition-smooth);
           padding: 24px 0;
           border-bottom: 1px solid transparent;
+          background: transparent; /* Completely transparent at top */
         }
 
         .header.scrolled {
           padding: 14px 0;
-          background: rgba(8, 11, 17, 0.85);
+          background: rgba(8, 11, 17, 0.7); /* Transparent-looking background when scrolled */
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
-          border-color: var(--border-color);
+          border-color: rgba(255, 255, 255, 0.08);
           box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
         }
 
@@ -118,13 +122,15 @@ export default function Header() {
         .logo {
           display: flex;
           align-items: center;
-          gap: 8px;
-          font-family: var(--font-headings);
-          font-weight: 800;
-          font-size: 1.5rem;
-          color: var(--text-primary);
-          letter-spacing: 0.05em;
           text-decoration: none !important;
+        }
+
+        .logo-img {
+          height: 110px;
+          width: auto;
+          display: block;
+          object-fit: contain;
+          filter: brightness(0) invert(1); /* Force the logo to be entirely white */
         }
 
         .logo-spark {
@@ -279,6 +285,10 @@ export default function Header() {
         }
 
         @media (max-width: 768px) {
+          .logo-img {
+            height: 78px; /* Mobile size */
+          }
+
           .desktop-nav {
             display: none;
           }

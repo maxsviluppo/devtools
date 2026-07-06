@@ -5,11 +5,12 @@ export default function Footer() {
 
   return (
     <footer className="footer">
+      <img src="/solo disegno logo.png" className="footer-bg-logo" alt="" />
       <div className="footer-container">
         <div className="footer-grid">
           <div className="footer-info">
             <a href="#" className="footer-logo">
-              DEV<span className="accent-color">TOOLS</span>
+              <img src="/logoorizzontaledevtools.png" alt="DevTools Logo" className="footer-logo-img" />
             </a>
             <p className="footer-description">
               Un laboratorio creativo dove strategia, design e tecnologia si fondono per dare forma alle tue idee e far crescere il tuo brand.
@@ -69,6 +70,11 @@ export default function Footer() {
 
         <div className="footer-bottom">
           <p>&copy; {currentYear} DevTools. Tutti i diritti riservati.</p>
+          <div className="footer-policy-links">
+            <a href="/privacy">Privacy Policy</a>
+            <span className="separator">|</span>
+            <a href="/privacy#cookies">Cookie Policy</a>
+          </div>
           <p className="powered-by">powered by DevTools</p>
         </div>
       </div>
@@ -80,6 +86,19 @@ export default function Footer() {
           padding: 64px 0 32px 0;
           position: relative;
           z-index: 10;
+          overflow: hidden;
+        }
+
+        .footer-bg-logo {
+          position: absolute;
+          bottom: -40px;
+          right: -80px;
+          height: 380px;
+          width: auto;
+          opacity: 0.05;
+          pointer-events: none;
+          z-index: 1;
+          filter: brightness(0) invert(1);
         }
 
         .footer-container {
@@ -98,14 +117,16 @@ export default function Footer() {
         .footer-logo {
           display: flex;
           align-items: center;
-          gap: 8px;
-          font-family: var(--font-headings);
-          font-weight: 800;
-          font-size: 1.5rem;
-          color: var(--text-primary);
-          letter-spacing: 0.05em;
-          margin-bottom: 16px;
+          margin-bottom: 20px;
           text-decoration: none !important;
+        }
+
+        .footer-logo-img {
+          height: 140px;
+          width: auto;
+          display: block;
+          object-fit: contain;
+          filter: brightness(0) invert(1); /* Force the logo to be entirely white */
         }
 
         .accent-color {
@@ -253,10 +274,37 @@ export default function Footer() {
           gap: 6px;
         }
 
+        .footer-policy-links {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .footer-policy-links a {
+          color: var(--text-muted);
+          transition: var(--transition-fast);
+          text-decoration: none !important;
+          font-size: 0.9rem;
+        }
+
+        .footer-policy-links a:hover {
+          color: var(--primary);
+        }
+
+        .separator {
+          color: var(--border-color);
+        }
+
         @media (max-width: 968px) {
           .footer-grid {
             grid-template-columns: 1fr 1fr;
             gap: 32px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .footer-logo-img {
+            height: 100px; /* Mobile size */
           }
         }
 

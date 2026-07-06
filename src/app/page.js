@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useState, useEffect, useRef } from 'react';
 import Courses from '@/components/Courses';
 import Innovations from '@/components/Innovations';
 import ContactForm from '@/components/ContactForm';
@@ -110,7 +111,7 @@ function getJourneyIcon(step) {
 
 function getServiceIcon(title) {
   switch (title) {
-    case 'Realizzazione Siti Web':
+    case 'Siti Web Personalizzati con Demo Gratuita':
       return (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="icon-svg">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -189,9 +190,185 @@ function getServiceIcon(title) {
 }
 
 export default function Home() {
+  const heroRef = useRef(null);
+  const cubeRef = useRef(null);
+  const [pos, setPos] = useState({ x: 100, y: 150 });
+
+  useEffect(() => {
+    let x = 100;
+    let y = 150;
+    let vx = 0.8;
+    let vy = 0.6;
+    
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let lastX = 0;
+    let lastY = 0;
+    let lastTime = Date.now();
+    let animationFrameId;
+
+    const handleMouseDown = (e) => {
+      isDragging = true;
+      startX = e.clientX - x;
+      startY = e.clientY - y;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      lastTime = Date.now();
+      vx = 0;
+      vy = 0;
+    };
+
+    const handleMouseMove = (e) => {
+      if (!isDragging) return;
+      const currentX = e.clientX;
+      const currentY = e.clientY;
+      const currentTime = Date.now();
+      
+      x = currentX - startX;
+      y = currentY - startY;
+
+      const dt = currentTime - lastTime || 1;
+      vx = ((currentX - lastX) / dt) * 16.67;
+      vy = ((currentY - lastY) / dt) * 16.67;
+      
+      // Limit maximum throw velocity to avoid extreme speeds
+      const maxVel = 25;
+      vx = Math.max(-maxVel, Math.min(maxVel, vx));
+      vy = Math.max(-maxVel, Math.min(maxVel, vy));
+
+      lastX = currentX;
+      lastY = currentY;
+      lastTime = currentTime;
+      
+      setPos({ x, y });
+    };
+
+    const handleMouseUp = () => {
+      isDragging = false;
+    };
+
+    const handleTouchStart = (e) => {
+      isDragging = true;
+      const touch = e.touches[0];
+      startX = touch.clientX - x;
+      startY = touch.clientY - y;
+      lastX = touch.clientX;
+      lastY = touch.clientY;
+      lastTime = Date.now();
+      vx = 0;
+      vy = 0;
+    };
+
+    const handleTouchMove = (e) => {
+      if (!isDragging) return;
+      const touch = e.touches[0];
+      const currentX = touch.clientX;
+      const currentY = touch.clientY;
+      const currentTime = Date.now();
+      
+      x = currentX - startX;
+      y = currentY - startY;
+
+      const dt = currentTime - lastTime || 1;
+      vx = ((currentX - lastX) / dt) * 16.67;
+      vy = ((currentY - lastY) / dt) * 16.67;
+
+      const maxVel = 25;
+      vx = Math.max(-maxVel, Math.min(maxVel, vx));
+      vy = Math.max(-maxVel, Math.min(maxVel, vy));
+      
+      lastX = currentX;
+      lastY = currentY;
+      lastTime = currentTime;
+      
+      setPos({ x, y });
+    };
+
+    const handleTouchEnd = () => {
+      isDragging = false;
+    };
+
+    const cubeEl = cubeRef.current;
+    if (cubeEl) {
+      cubeEl.addEventListener('mousedown', handleMouseDown);
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+      
+      cubeEl.addEventListener('touchstart', handleTouchStart);
+      window.addEventListener('touchmove', handleTouchMove);
+      window.addEventListener('touchend', handleTouchEnd);
+    }
+
+    const updatePosition = () => {
+      if (isDragging) {
+        animationFrameId = requestAnimationFrame(updatePosition);
+        return;
+      }
+      
+      if (!heroRef.current || !cubeRef.current) return;
+      const heroRect = heroRef.current.getBoundingClientRect();
+      const boundaryWidth = heroRect.width;
+      const boundaryHeight = heroRect.height;
+      const cubeWidth = 200;
+      const cubeHeight = 200;
+
+      // Friction effect (gradual deceleration like a billiard ball)
+      const friction = 0.985;
+      vx *= friction;
+      vy *= friction;
+
+      // Ensure minimum cruise speed so it keeps drifting
+      const minSpeedX = 0.8;
+      const minSpeedY = 0.6;
+      if (Math.abs(vx) < minSpeedX) {
+        vx = vx > 0 ? minSpeedX : -minSpeedX;
+      }
+      if (Math.abs(vy) < minSpeedY) {
+        vy = vy > 0 ? minSpeedY : -minSpeedY;
+      }
+
+      x += vx;
+      y += vy;
+
+      if (x <= 0) {
+        x = 0;
+        vx = Math.abs(vx);
+      } else if (x + cubeWidth >= boundaryWidth) {
+        x = boundaryWidth - cubeWidth;
+        vx = -Math.abs(vx);
+      }
+
+      if (y <= 0) {
+        y = 0;
+        vy = Math.abs(vy);
+      } else if (y + cubeHeight >= boundaryHeight) {
+        y = boundaryHeight - cubeHeight;
+        vy = -Math.abs(vy);
+      }
+
+      setPos({ x, y });
+      animationFrameId = requestAnimationFrame(updatePosition);
+    };
+
+    animationFrameId = requestAnimationFrame(updatePosition);
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      if (cubeEl) {
+        cubeEl.removeEventListener('mousedown', handleMouseDown);
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+        
+        cubeEl.removeEventListener('touchstart', handleTouchStart);
+        window.removeEventListener('touchmove', handleTouchMove);
+        window.removeEventListener('touchend', handleTouchEnd);
+      }
+    };
+  }, []);
+
   return (
     <main className="main-content">
-      <section className="hero-section">
+      <section ref={heroRef} className="hero-section">
         {/* Background Video */}
         <div className="hero-video-wrapper">
           <video
@@ -207,6 +384,7 @@ export default function Home() {
         <div className="tech-grid"></div>
         <div className="hero-glow-1"></div>
         <div className="hero-glow-2"></div>
+        <div className="hero-bottom-fade"></div>
         <div className="container hero-container">
           <div className="hero-text-wrapper animate-fade-in-up">
             <span className="hero-badge">Web Agency & Formazione Napoli</span>
@@ -228,17 +406,47 @@ export default function Home() {
           </div>
 
           <div className="hero-visual animate-fade-in">
-            <div className="visual-cube glass-panel">
-              <div className="cube-face front">DEV</div>
-              <div className="cube-face back">TOOLS</div>
-              <div className="cube-face right">CREATE</div>
-              <div className="cube-face left">DESIGN</div>
-              <div className="cube-face top">FUTURE</div>
-              <div className="cube-face bottom">INNOVATE</div>
-            </div>
+            {/* Orb background light stays here */}
             <div className="visual-orb"></div>
           </div>
         </div>
+
+        {/* Floating Bouncing Glass Cube */}
+        <div 
+          ref={cubeRef}
+          className="floating-cube-container"
+          style={{
+            position: 'absolute',
+            left: `${pos.x}px`,
+            top: `${pos.y}px`,
+            width: '200px',
+            height: '200px',
+            zIndex: 8,
+            pointerEvents: 'auto',
+            cursor: 'grab',
+            transformStyle: 'preserve-3d',
+            willChange: 'left, top'
+          }}
+        >
+          <div className="visual-cube">
+            <div className="cube-face front">DEV</div>
+            <div className="cube-face back">TOOLS</div>
+            <div className="cube-face right">CREATE</div>
+            <div className="cube-face left">DESIGN</div>
+            <div className="cube-face top">FUTURE</div>
+            <div className="cube-face bottom">INNOVATE</div>
+          </div>
+        </div>
+
+        {/* SVG Filter for Glass lens refraction and bicchiere distortion */}
+        <svg style={{ position: 'absolute', width: 0, height: 0, pointerEvents: 'none' }}>
+          <defs>
+            <filter id="glass-distortion">
+              <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise" />
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="35" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+          </defs>
+        </svg>
       </section>
 
       {/* Brand Journey Section */}
@@ -389,17 +597,17 @@ export default function Home() {
 
       <style jsx>{`
         .main-content {
-          padding-top: 80px; /* Offset for sticky header */
+          padding-top: 0; /* Remove header offset so hero bleeds to the very top */
         }
 
         /* Hero Section */
         .hero-section {
-          min-height: calc(100vh - 80px);
+          min-height: 100vh;
           display: flex;
           align-items: center;
           position: relative;
           overflow: hidden;
-          padding: 80px 0;
+          padding: 140px 0 100px 0; /* Extra top padding to clear fixed header content */
         }
 
         .hero-video-wrapper {
@@ -446,6 +654,17 @@ export default function Home() {
           pointer-events: none;
           z-index: 0;
           animation: pulseGlow 8s infinite alternate-reverse ease-in-out;
+        }
+
+        .hero-bottom-fade {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 180px;
+          background: linear-gradient(180deg, transparent 0%, rgba(8, 11, 17, 0.8) 50%, var(--bg-primary) 100%);
+          pointer-events: none;
+          z-index: 2;
         }
 
         .hero-container {
@@ -557,8 +776,8 @@ export default function Home() {
           position: absolute;
           width: 200px;
           height: 200px;
-          background: rgba(20, 28, 45, 0.7);
-          border: 2px solid rgba(17, 109, 255, 0.4);
+          background: rgba(10, 18, 30, 0.35);
+          border: 2px solid rgba(17, 109, 255, 0.45);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -567,8 +786,9 @@ export default function Home() {
           font-size: 1.1rem;
           color: var(--primary);
           text-shadow: 0 0 10px rgba(var(--primary-rgb), 0.5);
-          box-shadow: inset 0 0 30px rgba(17, 109, 255, 0.2);
-          backdrop-filter: blur(8px);
+          box-shadow: inset 0 0 35px rgba(17, 109, 255, 0.3), 0 0 10px rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(4px) url(#glass-distortion);
+          border-radius: 12px;
         }
 
         .front  { transform: rotateY(  0deg) translateZ(100px); }
