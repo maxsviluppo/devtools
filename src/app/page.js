@@ -295,7 +295,10 @@ export default function Home() {
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
       
-      cubeEl.addEventListener('touchstart', handleTouchStart);
+      cubeEl.addEventListener('touchstart', handleTouchStart, { passive: false });
+      cubeEl.addEventListener('touchmove', (e) => {
+        e.preventDefault(); // Block page scroll when dragging cube
+      }, { passive: false });
       window.addEventListener('touchmove', handleTouchMove);
       window.addEventListener('touchend', handleTouchEnd);
     }
@@ -661,8 +664,8 @@ export default function Home() {
           bottom: 0;
           left: 0;
           width: 100%;
-          height: 180px;
-          background: linear-gradient(180deg, transparent 0%, rgba(8, 11, 17, 0.8) 50%, var(--bg-primary) 100%);
+          height: 250px;
+          background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0.9) 70%, #000000 100%);
           pointer-events: none;
           z-index: 2;
         }
@@ -1028,6 +1031,7 @@ export default function Home() {
           border: 1px solid var(--border-color);
           box-shadow: 0 4px 10px rgba(0,0,0,0.2), 0 0 8px rgba(34, 197, 94, 0.1);
           transition: var(--transition-smooth);
+          color: #ffffff;
         }
 
         .service-icon-box .icon-svg {
@@ -1035,6 +1039,8 @@ export default function Home() {
           height: 26px;
           stroke-width: 2px;
           transition: var(--transition-smooth);
+          color: #ffffff;
+          stroke: #ffffff;
         }
 
         .service-item:hover .service-icon-box {

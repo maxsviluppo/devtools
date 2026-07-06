@@ -91,8 +91,8 @@ export default function Footer() {
 
         .footer-bg-logo {
           position: absolute;
-          bottom: -40px;
-          right: -80px;
+          bottom: calc(-40px + 500px);
+          right: -20%;
           height: 380px;
           width: auto;
           opacity: 0.05;
