@@ -5,6 +5,7 @@ import Courses from '@/components/Courses';
 import Innovations from '@/components/Innovations';
 import ContactForm from '@/components/ContactForm';
 import NextJsAdvantages from '@/components/NextJsAdvantages';
+import HeroCircuitEdge from '@/components/HeroCircuitEdge';
 
 const brandJourney = [
   {
@@ -379,7 +380,7 @@ export default function Home() {
 
   return (
     <main className="main-content">
-      <section ref={heroRef} className="hero-section">
+      <section ref={heroRef} className="hero-section" data-header-theme="dark">
         {/* Background Video */}
         <div className="hero-video-wrapper">
           <video
@@ -397,35 +398,31 @@ export default function Home() {
         <div className="hero-glow-2"></div>
         <div className="hero-bottom-fade"></div>
         <div className="container hero-container">
-          <div className="hero-text-wrapper animate-fade-in-up">
-            <span className="hero-badge">Innovazione Digitale & Hub Creativo</span>
-            <h1>
-              Dove ogni idea <br />
-              <span className="gradient-text text-glow-primary">prende forma!</span>
-            </h1>
-            <p className="hero-subtitle">
-              DEVTOOLS è il laboratorio creativo dove strategia, design e tecnologia si fondono per dare vita a progetti unici. Sviluppiamo il tuo business e formiamo le competenze del futuro.
-            </p>
-            <div className="hero-actions">
-              <a href="#servizi" className="btn-primary-hero">
-                Esplora i Servizi
-              </a>
-              <a href="#corsi" className="btn-secondary-hero">
-                Corsi di Formazione
-              </a>
+          <div className="hero-main-row">
+            <div className="hero-text-wrapper">
+              <span className="hero-badge hero-enter hero-enter-1">Innovazione Digitale & Hub Creativo</span>
+              <h1 className="hero-enter hero-enter-2">
+                Dove ogni idea <br />
+                <span className="gradient-text text-glow-primary">prende forma!</span>
+              </h1>
+              <p className="hero-subtitle hero-enter hero-enter-3">
+                CodeCafe è il laboratorio creativo dove strategia, design e tecnologia si fondono per dare vita a progetti unici. Sviluppiamo il tuo business e formiamo le competenze del futuro.
+              </p>
+            </div>
+
+            <div className="hero-visual hero-enter hero-enter-6">
+              {/* Orb background light stays here */}
+              <div className="visual-orb"></div>
             </div>
           </div>
 
-          <div className="hero-visual animate-fade-in">
-            {/* Orb background light stays here */}
-            <div className="visual-orb"></div>
-          </div>
+          <HeroCircuitEdge />
         </div>
 
         {/* Floating Bouncing Glass Cube */}
         <div 
           ref={cubeRef}
-          className="floating-cube-container"
+          className="floating-cube-container hero-enter hero-enter-7"
           style={{
             position: 'absolute',
             left: `${pos.x}px`,
@@ -440,8 +437,8 @@ export default function Home() {
           }}
         >
           <div className="visual-cube shape-cube">
-            <div className="cube-face front">DEV</div>
-            <div className="cube-face back">TOOLS</div>
+            <div className="cube-face front">CODE</div>
+            <div className="cube-face back">CAFE</div>
             <div className="cube-face right">CREATE</div>
             <div className="cube-face left">DESIGN</div>
             <div className="cube-face top">FUTURE</div>
@@ -461,13 +458,13 @@ export default function Home() {
       </section>
 
       {/* Brand Journey Section */}
-      <section id="journey" className="journey-section">
+      <section id="journey" className="journey-section" data-header-theme="dark">
         <div className="container">
           <div className="section-header">
             <span className="section-badge">Il Nostro Metodo</span>
             <h2>Il Viaggio <span className="gradient-text">del tuo Brand</span></h2>
             <p className="section-subtitle">
-              Ti accompagniamo passo dopo passo, dalla prima bozza all\'affermazione sul mercato, unendo tutti i tasselli della comunicazione moderna.
+              Ti accompagniamo passo dopo passo, dalla prima bozza all'affermazione sul mercato, unendo tutti i tasselli della comunicazione moderna.
             </p>
           </div>
 
@@ -503,7 +500,7 @@ export default function Home() {
       <NextJsAdvantages />
 
       {/* Services/Soluzioni Section */}
-      <section id="servizi" className="services-section">
+      <section id="servizi" className="services-section" data-header-theme="dark">
         <div className="tech-grid"></div>
         <div className="container">
           <div className="section-header">
@@ -539,14 +536,14 @@ export default function Home() {
       <Innovations />
 
       {/* Agency / Chi Siamo Section */}
-      <section id="agency" className="agency-section">
+      <section id="agency" className="agency-section" data-header-theme="dark">
         <div className="container">
           <div className="agency-grid">
             <div className="agency-content">
               <span className="section-badge">Chi Siamo</span>
               <h2>Agenzia di Comunicazione da <span className="gradient-text">oltre 30 anni</span></h2>
               <p className="agency-text">
-                Da più di tre decenni operiamo con passione e successo nel settore della comunicazione su carta stampata ed editoria digitale. La nostra agenzia si è evoluta costantemente, integrando le ultime tecnologie web e l\'intelligenza artificiale per continuare ad offrire il massimo.
+                Da più di tre decenni operiamo con passione e successo nel settore della comunicazione su carta stampata ed editoria digitale. La nostra agenzia si è evoluta costantemente, integrando le ultime tecnologie web e l'intelligenza artificiale per continuare ad offrire il massimo.
               </p>
               <p className="agency-text">
                 Crediamo che la chiave del successo sia la consulenza su misura. Comprendiamo a fondo le tue necessità per elaborare un piano strategico mirato a soddisfare ogni tuo obiettivo aziendale.
@@ -618,7 +615,7 @@ export default function Home() {
           align-items: center;
           position: relative;
           overflow: hidden;
-          padding: 140px 0 100px 0; /* Extra top padding to clear fixed header content */
+          padding: 140px 0 80px 0;
         }
 
         .hero-video-wrapper {
@@ -672,19 +669,26 @@ export default function Home() {
           bottom: 0;
           left: 0;
           width: 100%;
-          height: 250px;
-          background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0.9) 70%, #000000 100%);
+          height: 200px;
+          background: linear-gradient(180deg, transparent 0%, rgba(8, 11, 17, 0.5) 50%, rgba(8, 11, 17, 0.95) 100%);
           pointer-events: none;
           z-index: 2;
         }
 
         .hero-container {
+          display: flex;
+          flex-direction: column;
+          gap: 56px;
+          position: relative;
+          z-index: 5;
+          width: 100%;
+        }
+
+        .hero-main-row {
           display: grid;
           grid-template-columns: 1.2fr 0.8fr;
           gap: 48px;
           align-items: center;
-          position: relative;
-          z-index: 5;
         }
 
         .hero-text-wrapper {
@@ -716,48 +720,45 @@ export default function Home() {
           font-size: 1.2rem;
           line-height: 1.6;
           color: var(--text-secondary);
-          margin-bottom: 40px;
+          margin-bottom: 0;
         }
 
-        .hero-actions {
-          display: flex;
-          gap: 20px;
-          flex-wrap: wrap;
+        .hero-enter {
+          opacity: 0;
+          animation: heroEnterUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .btn-primary-hero {
-          padding: 14px 28px;
-          font-size: 1rem;
-          font-weight: 700;
-          border-radius: 50px;
-          background: linear-gradient(135deg, var(--secondary), rgba(var(--secondary-rgb), 0.8));
-          color: white;
-          box-shadow: 0 4px 20px rgba(17, 109, 255, 0.4);
-          transition: var(--transition-smooth);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+        .hero-enter-1 { animation-delay: 0.15s; }
+        .hero-enter-2 { animation-delay: 0.3s; }
+        .hero-enter-3 { animation-delay: 0.45s; }
+        .hero-enter-6 { animation-delay: 0.35s; animation-name: heroEnterScale; }
+        .hero-enter-7 { animation-delay: 0.5s; animation-name: heroEnterFade; }
+
+        @keyframes heroEnterUp {
+          from {
+            opacity: 0;
+            transform: translateY(28px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
-        .btn-primary-hero:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 25px rgba(17, 109, 255, 0.6);
-          background: linear-gradient(135deg, var(--primary), rgba(var(--primary-rgb), 0.8));
+        @keyframes heroEnterScale {
+          from {
+            opacity: 0;
+            transform: scale(0.88);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
         }
 
-        .btn-secondary-hero {
-          padding: 14px 28px;
-          font-size: 1rem;
-          font-weight: 700;
-          border-radius: 50px;
-          background: rgba(255, 255, 255, 0.03);
-          color: var(--text-primary);
-          border: 1px solid var(--border-color);
-          transition: var(--transition-smooth);
-        }
-
-        .btn-secondary-hero:hover {
-          background: rgba(255, 255, 255, 0.08);
-          border-color: var(--border-hover);
-          transform: translateY(-2px);
+        @keyframes heroEnterFade {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
 
         /* 3D Visual Cube */
@@ -1224,17 +1225,17 @@ export default function Home() {
         }
 
         @media (max-width: 968px) {
-          .hero-container {
+          .hero-main-row {
             grid-template-columns: 1fr;
             text-align: center;
           }
 
-          .hero-text-wrapper {
-            max-width: 100%;
+          .hero-container {
+            gap: 40px;
           }
 
-          .hero-actions {
-            justify-content: center;
+          .hero-text-wrapper {
+            max-width: 100%;
           }
 
           .hero-visual {

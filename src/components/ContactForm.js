@@ -67,7 +67,7 @@ export default function ContactForm() {
     setFormStatus('loading');
     
     // Construct mailto link dynamically
-    const subject = encodeURIComponent(`Richiesta DEVTOOLS: ${formData.tipoRichiesta} - ${formData.nome}`);
+    const subject = encodeURIComponent(`Richiesta CodeCafe: ${formData.tipoRichiesta} - ${formData.nome}`);
     const body = encodeURIComponent(
       `Nome: ${formData.nome}\n` +
       `Telefono: ${formData.telefono}\n` +
@@ -98,7 +98,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section id="contatti" className="contact-section">
+    <section id="contatti" className="contact-section" data-header-theme="dark">
       <div className="tech-grid"></div>
       <div className="container">
         <div className="contact-grid">
@@ -107,7 +107,7 @@ export default function ContactForm() {
             <span className="section-badge">Contatti</span>
             <h2>Sei pronto a <span className="gradient-text">dare forma</span> alle tue idee?</h2>
             <p className="subtitle">
-              Richiedi una consulenza gratuita o prenota l\'accesso ad uno dei nostri corsi di formazione. Riceverai una risposta dettagliata entro 24 ore.
+              Richiedi una consulenza gratuita o prenota l'accesso ad uno dei nostri corsi di formazione. Riceverai una risposta dettagliata entro 24 ore.
             </p>
 
             <div className="cta-box glass-panel">
@@ -289,7 +289,7 @@ export default function ContactForm() {
                       onChange={handleChange}
                     />
                     <label htmlFor="accettoPrivacy">
-                      Accetto i termini e dichiaro di aver letto l\'<a href="#" className="privacy-link">Informativa sulla Privacy</a>.
+                      Accetto i termini e dichiaro di aver letto l'<a href="#" className="privacy-link">Informativa sulla Privacy</a>.
                     </label>
                   </div>
 

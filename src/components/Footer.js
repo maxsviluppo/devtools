@@ -5,12 +5,12 @@ export default function Footer() {
 
   return (
     <footer className="footer">
-      <img src="/solo disegno logo.png" className="footer-bg-logo" alt="" />
+      <img src="/faviconcafe.png" className="footer-bg-logo" alt="" />
       <div className="footer-container">
         <div className="footer-grid">
           <div className="footer-info">
             <a href="#" className="footer-logo">
-              <img src="/logoorizzontaledevtools.png" alt="DevTools Logo" className="footer-logo-img" />
+              <img src="/logocafe.png" alt="CodeCafe Logo" className="footer-logo-img logo-img--on-dark" />
             </a>
             <p className="footer-description">
               Un laboratorio creativo dove strategia, design e tecnologia si fondono per dare forma alle tue idee e far crescere il tuo brand.
@@ -69,13 +69,13 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {currentYear} DevTools. Tutti i diritti riservati.</p>
+          <p>&copy; {currentYear} CodeCafe. Tutti i diritti riservati.</p>
           <div className="footer-policy-links">
             <a href="/privacy">Privacy Policy</a>
             <span className="separator">|</span>
             <a href="/privacy#cookies">Cookie Policy</a>
           </div>
-          <p className="powered-by">powered by DevTools</p>
+          <p className="powered-by">powered by CodeCafe</p>
         </div>
       </div>
 
@@ -95,10 +95,9 @@ export default function Footer() {
           right: -20%;
           height: 380px;
           width: auto;
-          opacity: 0.05;
+          opacity: 0.08;
           pointer-events: none;
           z-index: 1;
-          filter: brightness(0) invert(1);
         }
 
         .footer-container {
@@ -126,7 +125,10 @@ export default function Footer() {
           width: auto;
           display: block;
           object-fit: contain;
-          filter: brightness(0) invert(1); /* Force the logo to be entirely white */
+        }
+
+        :global(.logo-img--on-dark) {
+          filter: brightness(0) invert(1);
         }
 
         .accent-color {

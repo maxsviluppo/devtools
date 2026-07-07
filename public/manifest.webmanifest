@@ -1,0 +1,24 @@
+{
+  "name": "CodeCafe | Web Agency, Formazione & Innovazione",
+  "short_name": "CodeCafe",
+  "description": "Web agency creativa e centro di formazione d'avanguardia a Napoli.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080b11",
+  "theme_color": "#080b11",
+  "lang": "it",
+  "icons": [
+    {
+      "src": "/faviconcafe.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/faviconcafe.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

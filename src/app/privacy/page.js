@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function PrivacyPage() {
   return (
-    <main className="privacy-page">
+    <main className="privacy-page" data-header-theme="dark">
       <div className="privacy-container">
         <header className="privacy-header">
           <span className="badge">Legal</span>

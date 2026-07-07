@@ -218,7 +218,7 @@ export default function Courses() {
   };
 
   return (
-    <section id="corsi" className="courses-section">
+    <section id="corsi" className="courses-section" data-header-theme="dark">
       <div className="tech-grid"></div>
       <div className="container">
         <div className="section-header animate-fade-in-up">

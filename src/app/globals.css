@@ -207,6 +207,41 @@ p {
 
 
 
+/* Logo theme helpers (header + footer) */
+.logo-img--on-dark {
+  filter: brightness(0) invert(1);
+}
+
+.logo-img--on-light {
+  filter: brightness(0);
+}
+
+/* Box SVG icons — global so helper-rendered SVGs get sized/styled on all viewports */
+.journey-icon,
+.service-icon-box,
+.course-icon,
+.icon-wrapper {
+  flex-shrink: 0;
+}
+
+.journey-icon .icon-svg,
+.service-icon-box .icon-svg,
+.course-icon .icon-svg,
+.icon-wrapper .icon-svg {
+  display: block;
+  width: 26px !important;
+  height: 26px !important;
+  min-width: 26px;
+  min-height: 26px;
+  stroke-width: 2px;
+  stroke: var(--secondary);
+  fill: none;
+}
+
+.service-icon-box .icon-svg {
+  stroke: #ffffff;
+}
+
 /* Responsive utilities */
 @media (max-width: 768px) {
   h1 {
@@ -214,5 +249,23 @@ p {
   }
   h2 {
     font-size: 1.8rem;
+  }
+
+  /* Keep info-box icons visible if entrance animations stall on mobile */
+  .animate-fade-left:not(.hero-enter),
+  .animate-fade-right:not(.hero-enter),
+  .animate-zoom-in:not(.hero-enter),
+  .animate-fade-in-up:not(.hero-enter) {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .journey-icon,
+  .service-icon-box,
+  .course-icon,
+  .icon-wrapper {
+    min-width: 48px;
+    min-height: 48px;
   }
 }

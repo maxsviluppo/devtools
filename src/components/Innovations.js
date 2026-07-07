@@ -77,7 +77,7 @@ export default function Innovations() {
   const [selectedId, setSelectedId] = useState(null);
 
   return (
-    <section id="innovazioni" className="innovations-section">
+    <section id="innovazioni" className="innovations-section" data-header-theme="dark">
       <div className="container">
         <div className="section-header">
           <span className="section-badge">R&D & Innovazione</span>
@@ -253,7 +253,7 @@ export default function Innovations() {
           box-shadow: 0 0 10px rgba(17, 109, 255, 0.1);
         }
 
-        .icon-svg {
+        .icon-wrapper :global(.icon-svg) {
           width: 26px;
           height: 26px;
           stroke-width: 2px;
@@ -268,7 +268,7 @@ export default function Innovations() {
           box-shadow: 0 0 20px rgba(255, 156, 90, 0.6);
         }
 
-        .innovation-card:hover .icon-svg {
+        .innovation-card:hover :global(.icon-svg) {
           filter: drop-shadow(0 0 6px rgba(255, 156, 90, 0.8));
           stroke: var(--primary);
         }

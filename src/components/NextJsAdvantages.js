@@ -91,7 +91,7 @@ export default function NextJsAdvantages() {
   };
 
   return (
-    <section className="advantages-section">
+    <section className="advantages-section" data-header-theme="dark">
       <div className="container">
         <div className="section-header">
           <span className="section-badge">Perché Next.js?</span>

@@ -1,28 +1,59 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
 export default function Header() {
   const pathname = usePathname();
   const isHome = pathname === '/';
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [logoTheme, setLogoTheme] = useState('on-dark');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 20);
+
+      if (isMobileMenuOpen) {
+        lastScrollY.current = currentScrollY;
+        return;
       }
+
+      if (currentScrollY < 80) {
+        setIsHeaderVisible(true);
+      } else if (currentScrollY > lastScrollY.current + 8) {
+        setIsHeaderVisible(false);
+      } else if (currentScrollY < lastScrollY.current - 8) {
+        setIsHeaderVisible(true);
+      }
+
+      lastScrollY.current = currentScrollY;
+
+      const probeY = Math.min(window.innerHeight - 1, 72);
+      const probeX = Math.min(window.innerWidth - 1, Math.round(window.innerWidth / 2));
+      const element = document.elementFromPoint(probeX, probeY);
+      const themedSection = element?.closest('[data-header-theme]');
+      const theme = themedSection?.getAttribute('data-header-theme') || 'dark';
+      setLogoTheme(theme === 'light' ? 'on-light' : 'on-dark');
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [isMobileMenuOpen]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+    if (!isMobileMenuOpen) {
+      setIsHeaderVisible(true);
+    }
   };
 
   const navLinks = [
@@ -34,13 +65,18 @@ export default function Header() {
   ];
 
   return (
-    <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
+    <header
+      className={`header ${isScrolled ? 'scrolled' : ''} ${isHeaderVisible ? 'visible' : 'hidden-nav'} ${isMobileMenuOpen ? 'menu-open' : ''}`}
+    >
       <div className="header-container">
         <a href={isHome ? '#' : '/'} className="logo">
-          <img src="/logoorizzontaledevtools.png" alt="DevTools Logo" className="logo-img" />
+          <img
+            src="/logocafe.png"
+            alt="CodeCafe Logo"
+            className={`logo-img logo-img--${logoTheme}`}
+          />
         </a>
 
-        {/* Desktop Nav */}
         <nav className="desktop-nav">
           {navLinks.map((link) => (
             <a key={link.name} href={isHome ? link.href : '/' + link.href} className="nav-link">
@@ -53,8 +89,8 @@ export default function Header() {
           <a href={isHome ? '#contatti' : '/#contatti'} className="btn-cta">
             Contattaci
           </a>
-          <button 
-            className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`} 
+          <button
+            className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`}
             onClick={toggleMobileMenu}
             aria-label="Toggle menu"
           >
@@ -65,21 +101,20 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Nav Menu */}
       <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}>
         <nav className="mobile-nav">
           {navLinks.map((link) => (
-            <a 
-              key={link.name} 
-              href={isHome ? link.href : '/' + link.href} 
+            <a
+              key={link.name}
+              href={isHome ? link.href : '/' + link.href}
               className="mobile-nav-link"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {link.name}
             </a>
           ))}
-          <a 
-            href={isHome ? '#contatti' : '/#contatti'} 
+          <a
+            href={isHome ? '#contatti' : '/#contatti'}
             className="btn-cta mobile-cta"
             onClick={() => setIsMobileMenuOpen(false)}
           >
@@ -95,15 +130,28 @@ export default function Header() {
           left: 0;
           width: 100%;
           z-index: 100;
-          transition: var(--transition-smooth);
+          transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+            padding 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+            background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+            border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+            box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
           padding: 24px 0;
           border-bottom: 1px solid transparent;
-          background: transparent; /* Completely transparent at top */
+          background: transparent;
+          transform: translateY(0);
+        }
+
+        .header.hidden-nav {
+          transform: translateY(-110%);
+        }
+
+        .header.menu-open {
+          transform: translateY(0);
         }
 
         .header.scrolled {
           padding: 14px 0;
-          background: rgba(8, 11, 17, 0.7); /* Transparent-looking background when scrolled */
+          background: rgba(8, 11, 17, 0.7);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border-color: rgba(255, 255, 255, 0.08);
@@ -130,18 +178,15 @@ export default function Header() {
           width: auto;
           display: block;
           object-fit: contain;
-          filter: brightness(0) invert(1); /* Force the logo to be entirely white */
+          transition: filter 0.35s ease;
         }
 
-        .logo-spark {
-          color: var(--primary);
-          font-size: 1.6rem;
-          animation: pulseGlow 3s infinite ease-in-out;
+        .logo-img--on-dark {
+          filter: brightness(0) invert(1);
         }
 
-        .accent-color {
-          color: var(--secondary);
-          position: relative;
+        .logo-img--on-light {
+          filter: brightness(0);
         }
 
         .desktop-nav {
@@ -236,7 +281,6 @@ export default function Header() {
           transform: translateY(-8px) rotate(-45deg);
         }
 
-        /* Mobile Menu */
         .mobile-menu-overlay {
           position: fixed;
           top: 0;
@@ -286,7 +330,7 @@ export default function Header() {
 
         @media (max-width: 768px) {
           .logo-img {
-            height: 78px; /* Mobile size */
+            height: 78px;
           }
 
           .desktop-nav {
