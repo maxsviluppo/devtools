@@ -208,6 +208,8 @@ export default function Home() {
     let lastY = 0;
     let lastTime = Date.now();
     let animationFrameId;
+    let renderX = x;
+    let renderY = y;
 
     const handleMouseDown = (e) => {
       isDragging = true;
@@ -234,7 +236,7 @@ export default function Home() {
       vy = ((currentY - lastY) / dt) * 16.67;
       
       // Limit maximum throw velocity to avoid extreme speeds
-      const maxVel = 25;
+      const maxVel = 20;
       vx = Math.max(-maxVel, Math.min(maxVel, vx));
       vy = Math.max(-maxVel, Math.min(maxVel, vy));
 
@@ -275,7 +277,7 @@ export default function Home() {
       vx = ((currentX - lastX) / dt) * 16.67;
       vy = ((currentY - lastY) / dt) * 16.67;
 
-      const maxVel = 25;
+      const maxVel = 20;
       vx = Math.max(-maxVel, Math.min(maxVel, vx));
       vy = Math.max(-maxVel, Math.min(maxVel, vy));
       
@@ -305,53 +307,58 @@ export default function Home() {
     }
 
     const updatePosition = () => {
-      if (isDragging) {
+      if (!heroRef.current || !cubeRef.current) {
         animationFrameId = requestAnimationFrame(updatePosition);
         return;
       }
-      
-      if (!heroRef.current || !cubeRef.current) return;
       const heroRect = heroRef.current.getBoundingClientRect();
       const boundaryWidth = heroRect.width;
       const boundaryHeight = heroRect.height;
-      const cubeWidth = 200;
-      const cubeHeight = 200;
+      const isMobile = window.innerWidth <= 968;
+      const cubeWidth = isMobile ? 150 : 200;
+      const cubeHeight = isMobile ? 150 : 200;
 
-      // Friction effect (gradual deceleration like a billiard ball)
-      const friction = 0.985;
-      vx *= friction;
-      vy *= friction;
+      if (!isDragging) {
+        // Friction effect (gradual deceleration like a billiard ball)
+        const friction = 0.992;
+        vx *= friction;
+        vy *= friction;
 
-      // Ensure minimum cruise speed so it keeps drifting
-      const minSpeedX = 0.8;
-      const minSpeedY = 0.6;
-      if (Math.abs(vx) < minSpeedX) {
-        vx = vx > 0 ? minSpeedX : -minSpeedX;
+        // Ensure minimum cruise speed so it keeps drifting
+        const minSpeedX = 0.6;
+        const minSpeedY = 0.4;
+        if (Math.abs(vx) < minSpeedX) {
+          vx = vx > 0 ? minSpeedX : -minSpeedX;
+        }
+        if (Math.abs(vy) < minSpeedY) {
+          vy = vy > 0 ? minSpeedY : -minSpeedY;
+        }
+
+        x += vx;
+        y += vy;
+
+        if (x <= 0) {
+          x = 0;
+          vx = Math.abs(vx);
+        } else if (x + cubeWidth >= boundaryWidth) {
+          x = boundaryWidth - cubeWidth;
+          vx = -Math.abs(vx);
+        }
+
+        if (y <= 0) {
+          y = 0;
+          vy = Math.abs(vy);
+        } else if (y + cubeHeight >= boundaryHeight) {
+          y = boundaryHeight - cubeHeight;
+          vy = -Math.abs(vy);
+        }
       }
-      if (Math.abs(vy) < minSpeedY) {
-        vy = vy > 0 ? minSpeedY : -minSpeedY;
-      }
 
-      x += vx;
-      y += vy;
+      // Smooth interpolation/lerp (0.15) for natural, fluid visual movement
+      renderX += (x - renderX) * 0.15;
+      renderY += (y - renderY) * 0.15;
+      setPos({ x: renderX, y: renderY });
 
-      if (x <= 0) {
-        x = 0;
-        vx = Math.abs(vx);
-      } else if (x + cubeWidth >= boundaryWidth) {
-        x = boundaryWidth - cubeWidth;
-        vx = -Math.abs(vx);
-      }
-
-      if (y <= 0) {
-        y = 0;
-        vy = Math.abs(vy);
-      } else if (y + cubeHeight >= boundaryHeight) {
-        y = boundaryHeight - cubeHeight;
-        vy = -Math.abs(vy);
-      }
-
-      setPos({ x, y });
       animationFrameId = requestAnimationFrame(updatePosition);
     };
 
@@ -981,11 +988,11 @@ export default function Home() {
         }
 
         .icon-svg {
-          width: 26px;
-          height: 26px;
-          stroke-width: 2px;
+          width: 26px !important;
+          height: 26px !important;
+          stroke-width: 2px !important;
           transition: var(--transition-smooth);
-          stroke: var(--secondary); /* Force explicit color instead of only relying on currentColor */
+          stroke: var(--secondary) !important; /* Force explicit color instead of only relying on currentColor */
         }
 
         .journey-card:hover .icon-svg {
@@ -1243,12 +1250,18 @@ export default function Home() {
             width: 150px;
             height: 150px;
             font-size: 0.95rem;
+            background-image: none !important; /* Remove mesh/wireframe grid */
+            background: rgba(15, 23, 42, 0.72) !important; /* Frosted matte glass background */
+            backdrop-filter: blur(16px) url(#glass-distortion) !important;
+            -webkit-backdrop-filter: blur(16px) url(#glass-distortion) !important;
+            border: 1.5px solid rgba(17, 109, 255, 0.55) !important;
+            box-shadow: inset 0 0 25px rgba(17, 109, 255, 0.25), 0 0 10px rgba(17, 109, 255, 0.15) !important;
           }
 
           .front  { transform: rotateY(  0deg) translateZ(75px); }
           .back   { transform: rotateY(180deg) translateZ(75px); }
-          .right  { transform: rotateY( 90deg) translateZ(75px); }
-          .left   { transform: rotateY(-90deg) translateZ(75px); }
+          .right  { transform: rotateY( 90deg) translateZ(75px); color: var(--secondary); border-color: rgba(255, 156, 90, 0.4) !important; text-shadow: 0 0 10px rgba(var(--secondary-rgb), 0.5); }
+          .left   { transform: rotateY(-90deg) translateZ(75px); color: var(--secondary); border-color: rgba(255, 156, 90, 0.4) !important; text-shadow: 0 0 10px rgba(var(--secondary-rgb), 0.5); }
           .top    { transform: rotateX( 90deg) translateZ(75px); }
           .bottom { transform: rotateX(-90deg) translateZ(75px); }
 
