@@ -432,6 +432,7 @@ export default function Courses() {
           height: 26px;
           stroke-width: 2px;
           transition: var(--transition-smooth);
+          stroke: var(--secondary);
         }
 
         .course-card:hover .course-icon {
@@ -443,6 +444,7 @@ export default function Courses() {
 
         .course-card:hover :global(.icon-svg) {
           filter: drop-shadow(0 0 6px rgba(255, 0, 255, 0.8));
+          stroke: #ff00ff;
         }
 
         .course-badges {

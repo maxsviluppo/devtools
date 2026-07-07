@@ -193,6 +193,7 @@ export default function Home() {
   const heroRef = useRef(null);
   const cubeRef = useRef(null);
   const [pos, setPos] = useState({ x: 100, y: 150 });
+  const [currentShape, setCurrentShape] = useState('cube');
 
   useEffect(() => {
     let x = 100;
@@ -390,7 +391,7 @@ export default function Home() {
         <div className="hero-bottom-fade"></div>
         <div className="container hero-container">
           <div className="hero-text-wrapper animate-fade-in-up">
-            <span className="hero-badge">Web Agency & Formazione Napoli</span>
+            <span className="hero-badge">Innovazione Digitale & Hub Creativo</span>
             <h1>
               Dove ogni idea <br />
               <span className="gradient-text text-glow-primary">prende forma!</span>
@@ -431,7 +432,7 @@ export default function Home() {
             willChange: 'left, top'
           }}
         >
-          <div className="visual-cube">
+          <div className="visual-cube shape-cube">
             <div className="cube-face front">DEV</div>
             <div className="cube-face back">TOOLS</div>
             <div className="cube-face right">CREATE</div>
@@ -768,6 +769,7 @@ export default function Home() {
           transform-style: preserve-3d;
           animation: spinCube 20s infinite linear;
           z-index: 10;
+          transition: all 1s ease-in-out;
         }
 
         @keyframes spinCube {
@@ -779,8 +781,8 @@ export default function Home() {
           position: absolute;
           width: 200px;
           height: 200px;
-          background: rgba(10, 18, 30, 0.35);
-          border: 2px solid rgba(17, 109, 255, 0.45);
+          background: rgba(8, 15, 30, 0.2);
+          border: 1.5px solid rgba(17, 109, 255, 0.7);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -789,17 +791,60 @@ export default function Home() {
           font-size: 1.1rem;
           color: var(--primary);
           text-shadow: 0 0 10px rgba(var(--primary-rgb), 0.5);
-          box-shadow: inset 0 0 35px rgba(17, 109, 255, 0.3), 0 0 10px rgba(255, 255, 255, 0.1);
+          box-shadow: inset 0 0 25px rgba(17, 109, 255, 0.35), 0 0 8px rgba(17, 109, 255, 0.2);
           backdrop-filter: blur(4px) url(#glass-distortion);
           border-radius: 12px;
+          transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+          /* Mesh/Wireframe background grid effect */
+          background-image: 
+            linear-gradient(rgba(17, 109, 255, 0.25) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(17, 109, 255, 0.25) 1px, transparent 1px);
+          background-size: 25px 25px;
         }
 
+        /* Default face positioning (Cube) */
         .front  { transform: rotateY(  0deg) translateZ(100px); }
         .back   { transform: rotateY(180deg) translateZ(100px); }
         .right  { transform: rotateY( 90deg) translateZ(100px); color: var(--secondary); border-color: rgba(255, 156, 90, 0.4); text-shadow: 0 0 10px rgba(var(--secondary-rgb), 0.5); }
         .left   { transform: rotateY(-90deg) translateZ(100px); color: var(--secondary); border-color: rgba(255, 156, 90, 0.4); text-shadow: 0 0 10px rgba(var(--secondary-rgb), 0.5); }
         .top    { transform: rotateX( 90deg) translateZ(100px); }
         .bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+        /* Shape 1: Sphere */
+        .visual-cube.shape-sphere .cube-face {
+          border-radius: 50%;
+          border-color: rgba(17, 109, 255, 0.85);
+          box-shadow: inset 0 0 40px rgba(17, 109, 255, 0.6), 0 0 20px rgba(17, 109, 255, 0.35);
+          background-image: 
+            radial-gradient(circle, rgba(17, 109, 255, 0.15) 10%, transparent 80%),
+            linear-gradient(rgba(17, 109, 255, 0.2) 1px, transparent 1px);
+          background-size: 15px 15px;
+        }
+
+        /* Shape 2: Cone */
+        .visual-cube.shape-cone .cube-face {
+          clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+          border-color: rgba(255, 156, 90, 0.8);
+          box-shadow: inset 0 -30px 40px rgba(255, 156, 90, 0.3);
+        }
+        .visual-cube.shape-cone .cube-face.bottom {
+          clip-path: none;
+          border-radius: 50%;
+        }
+
+        /* Shape 3: Cylinder */
+        .visual-cube.shape-cylinder .cube-face {
+          border-radius: 0;
+          border-left: 2px solid rgba(17, 109, 255, 0.7);
+          border-right: 2px solid rgba(17, 109, 255, 0.7);
+          border-top: none;
+          border-bottom: none;
+        }
+        .visual-cube.shape-cylinder .cube-face.top,
+        .visual-cube.shape-cylinder .cube-face.bottom {
+          border: 1.5px solid rgba(17, 109, 255, 0.7);
+          border-radius: 50%;
+        }
 
         .visual-orb {
           position: absolute;
@@ -940,10 +985,12 @@ export default function Home() {
           height: 26px;
           stroke-width: 2px;
           transition: var(--transition-smooth);
+          stroke: var(--secondary); /* Force explicit color instead of only relying on currentColor */
         }
 
         .journey-card:hover .icon-svg {
           filter: drop-shadow(0 0 6px rgba(255, 156, 90, 0.8));
+          stroke: var(--primary); /* Force explicit hover color */
         }
 
         .journey-card h3 {
@@ -1051,6 +1098,7 @@ export default function Home() {
 
         .service-item:hover .icon-svg {
           filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.8));
+          stroke: #22c55e;
         }
 
         .service-item h3 {

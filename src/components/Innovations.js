@@ -258,6 +258,7 @@ export default function Innovations() {
           height: 26px;
           stroke-width: 2px;
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          stroke: var(--secondary);
         }
 
         .innovation-card:hover .icon-wrapper {
@@ -269,6 +270,7 @@ export default function Innovations() {
 
         .innovation-card:hover .icon-svg {
           filter: drop-shadow(0 0 6px rgba(255, 156, 90, 0.8));
+          stroke: var(--primary);
         }
 
         .status-badge {
