@@ -58,6 +58,7 @@ export default function Header() {
 
   const navLinks = [
     { name: 'Servizi', href: '#servizi' },
+    { name: 'Giochi', href: '/giochi' },
     { name: 'Corsi', href: '#corsi' },
     { name: 'Innovazione', href: '#innovazioni' },
     { name: 'Chi Siamo', href: '#agency' },
@@ -79,7 +80,7 @@ export default function Header() {
 
         <nav className="desktop-nav">
           {navLinks.map((link) => (
-            <a key={link.name} href={isHome ? link.href : '/' + link.href} className="nav-link">
+            <a key={link.name} href={link.href.startsWith('/') ? link.href : (isHome ? link.href : '/' + link.href)} className="nav-link">
               {link.name}
             </a>
           ))}
@@ -106,7 +107,7 @@ export default function Header() {
           {navLinks.map((link) => (
             <a
               key={link.name}
-              href={isHome ? link.href : '/' + link.href}
+              href={link.href.startsWith('/') ? link.href : (isHome ? link.href : '/' + link.href)}
               className="mobile-nav-link"
               onClick={() => setIsMobileMenuOpen(false)}
             >

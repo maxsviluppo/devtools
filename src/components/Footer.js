@@ -21,6 +21,7 @@ export default function Footer() {
             <h3>Navigazione</h3>
             <ul className="footer-links">
               <li><a href="#servizi">Servizi</a></li>
+              <li><a href="/giochi">Giochi</a></li>
               <li><a href="#corsi">Corsi Formazione</a></li>
               <li><a href="#innovazioni">Attività & Innovazioni</a></li>
               <li><a href="#agency">Chi Siamo</a></li>
@@ -69,7 +70,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {currentYear} CodeCafe. Tutti i diritti riservati.</p>
+          <p>&copy; {currentYear} CodeCafe. Tutti i diritti riservati. CEO Castro Massimo</p>
           <div className="footer-policy-links">
             <a href="/privacy">Privacy Policy</a>
             <span className="separator">|</span>

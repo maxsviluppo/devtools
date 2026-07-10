@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 const agencyServices = [
   'Creazione Sito Web',
   'Realizzazione E-Commerce',
+  'Realizzazione di giochi webapp, android e ios',
   'Social Media Management',
   'Sviluppo Modelli 3D',
   'Graphic Design & Branding',
@@ -249,16 +250,15 @@ export default function ContactForm() {
 
                   {/* Dropdown Select Field instead of Checkbox grid */}
                   <div className="form-group">
-                    <label htmlFor="servizioInteresse">Seleziona l'elemento di interesse *</label>
+                    <label htmlFor="servizioInteresse">Seleziona l'elemento di interesse (Opzionale)</label>
                     <select
                       id="servizioInteresse"
                       name="servizioInteresse"
-                      required
                       value={formData.servizioInteresse}
                       onChange={handleChange}
                       className="select-dropdown"
                     >
-                      <option value="" disabled>Scegli una delle opzioni...</option>
+                      <option value="">Scegli una delle opzioni (Opzionale)...</option>
                       {(formData.tipoRichiesta === 'servizi' ? agencyServices : trainingCourses).map((service) => (
                         <option key={service} value={service}>
                           {service}

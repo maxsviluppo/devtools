@@ -499,6 +499,63 @@ export default function Home() {
       {/* Next.js Advantages Slider */}
       <NextJsAdvantages />
 
+      {/* Sezione Giochi & Numbergame */}
+      <section id="giochi" className="games-section" data-header-theme="dark">
+        <div className="tech-grid"></div>
+        <div className="container">
+          <div className="section-header">
+            <span className="section-badge">Game Dev Studio</span>
+            <h2>Sviluppo Videogiochi <span className="gradient-text">Su Misura</span></h2>
+            <p className="section-subtitle">
+              Progettiamo e realizziamo videogiochi coinvolgenti, educativi e interattivi per brand, aziende e istituzioni. Dalla progettazione all'ottimizzazione per Web, Android e iOS.
+            </p>
+          </div>
+
+          {/* Banner / Anteprima Game Dev */}
+          <div className="game-banner glass-panel animate-zoom-in">
+            <div className="banner-bg-glass"></div>
+            <div className="game-banner-content">
+              <span className="game-tag">Featured Game</span>
+              <div className="game-title-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
+                <img src="/logonumeri.PNG" alt="Numbergame Logo" style={{ height: '48px', width: 'auto', borderRadius: '8px' }} />
+                <h3 style={{ margin: 0 }}>Numbergame.it</h3>
+              </div>
+              <p>
+                Numbergame è il nostro fiore all'occhiello nello sviluppo edutainment: un ecosistema competitivo progettato per sfidare la mente. Sviluppato con tecnologie web moderne ed ottimizzato per garantire performance d'eccezione anche come app nativa per Android e iOS. Offre una griglia di calcolo dinamica per stimolare la concentrazione, il ragionamento logico-matematico rapido e la memoria a breve termine.
+              </p>
+              <div className="platform-badges">
+                <span className="platform-badge">Web (Desktop/Mobile)</span>
+                <span className="platform-badge">Android App</span>
+                <span className="platform-badge">iOS App</span>
+              </div>
+              <div className="game-actions" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <a href="https://www.numbergame.it/site" target="_blank" rel="noopener noreferrer" className="btn-game-primary">
+                  Gioca Ora su numbergame.it
+                </a>
+                <a href="/giochi#numbergame" className="btn-game-secondary">
+                  Scopri di più
+                </a>
+              </div>
+            </div>
+            <div className="game-banner-preview">
+              <div className="phone-mockup">
+                <div className="phone-notch"></div>
+                <div className="phone-screen">
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="game-preview-video"
+                    src="https://www.dropbox.com/scl/fi/v16lk4ypz2d86d92qpd9p/ScreenRecording_07-10-2026-11-46-04_1.mp4?rlkey=fx9mxwno0ttuc04v1pad7smq3&st=8yyy1f5b&raw=1"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Services/Soluzioni Section */}
       <section id="servizi" className="services-section" data-header-theme="dark">
         <div className="tech-grid"></div>
@@ -604,6 +661,233 @@ export default function Home() {
       <ContactForm />
 
       <style jsx>{`
+        /* Games Section Styles */
+        .games-section {
+          padding: 100px 0;
+          background-color: var(--bg-primary);
+          position: relative;
+          overflow: hidden;
+          border-top: 1px solid var(--border-color);
+          border-bottom: 1px solid var(--border-color);
+        }
+
+        .game-banner {
+          position: relative;
+          overflow: hidden;
+          display: grid;
+          grid-template-columns: 1.2fr 0.8fr;
+          gap: 40px;
+          padding: 48px;
+          align-items: center;
+          margin-bottom: 40px;
+          border: 1px solid rgba(17, 109, 255, 0.2);
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(17, 109, 255, 0.05);
+        }
+
+        .banner-bg-glass {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          transform: translateY(-50%);
+          width: 50%;
+          height: 70%;
+          background-image: url("/CasellaGlass.png");
+          background-repeat: no-repeat;
+          background-position: left center;
+          background-size: contain;
+          opacity: 0.12;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .game-banner-content h3 {
+          font-size: 2rem;
+          color: var(--text-primary);
+          line-height: 1.2;
+          font-family: var(--font-headings);
+        }
+
+        .game-tag {
+          display: inline-block;
+          font-size: 0.85rem;
+          font-weight: 700;
+          color: var(--primary);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 8px;
+        }
+
+        .game-banner-content p {
+          font-size: 1.05rem;
+          line-height: 1.6;
+          color: var(--text-secondary);
+          margin-bottom: 24px;
+        }
+
+        .platform-badges {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+          margin-bottom: 32px;
+        }
+
+        .platform-badge {
+          background: rgba(255, 156, 90, 0.1);
+          border: 1px solid rgba(255, 156, 90, 0.3);
+          color: var(--secondary);
+          padding: 4px 12px;
+          border-radius: 50px;
+          font-size: 0.8rem;
+          font-weight: 600;
+        }
+
+        .btn-game-primary {
+          display: inline-block;
+          padding: 12px 28px;
+          background: linear-gradient(135deg, var(--primary), rgba(var(--primary-rgb), 0.8));
+          color: white;
+          border-radius: 50px;
+          font-weight: 600;
+          text-decoration: none !important;
+          box-shadow: 0 4px 15px rgba(17, 109, 255, 0.3);
+          transition: var(--transition-smooth);
+        }
+
+        .btn-game-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(17, 109, 255, 0.5);
+          background: linear-gradient(135deg, var(--secondary), rgba(var(--secondary-rgb), 0.8));
+        }
+
+        .btn-game-secondary {
+          display: inline-block;
+          padding: 12px 28px;
+          background: transparent;
+          color: var(--text-primary);
+          border: 1px solid var(--border-color);
+          border-radius: 50px;
+          font-weight: 600;
+          text-decoration: none !important;
+          transition: var(--transition-smooth);
+        }
+
+        .btn-game-secondary:hover {
+          transform: translateY(-2px);
+          background: rgba(255, 255, 255, 0.05);
+          border-color: var(--primary);
+          color: white;
+        }
+
+        .phone-mockup {
+          position: relative;
+          width: 270px;
+          height: 540px;
+          margin: 0 auto;
+          border: 12px solid #1e293b;
+          border-radius: 36px;
+          overflow: hidden;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(17, 109, 255, 0.15);
+          background: #020617;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .phone-notch {
+          position: absolute;
+          top: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 120px;
+          height: 18px;
+          background: #1e293b;
+          border-bottom-left-radius: 12px;
+          border-bottom-right-radius: 12px;
+          z-index: 20;
+        }
+
+        .phone-screen {
+          width: 100%;
+          height: 100%;
+          background: #000;
+          position: relative;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .game-preview-video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .game-details-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 24px;
+        }
+
+        .game-detail-card {
+          padding: 32px;
+          border-bottom: 2px solid transparent;
+          transition: var(--transition-smooth);
+        }
+
+        .game-detail-card:hover {
+          border-color: var(--primary);
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(17, 109, 255, 0.1);
+        }
+
+        .card-icon {
+          font-size: 2.2rem;
+          margin-bottom: 20px;
+        }
+
+        .game-detail-card h4 {
+          font-size: 1.3rem;
+          color: var(--text-primary);
+          margin-bottom: 12px;
+          font-family: var(--font-headings);
+        }
+
+        .game-detail-card p {
+          font-size: 0.98rem;
+          line-height: 1.6;
+          color: var(--text-secondary);
+        }
+
+        .fallback-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 0.95rem;
+          color: var(--text-secondary);
+          text-decoration: none !important;
+          transition: var(--transition-fast);
+          padding: 8px 16px;
+          border-radius: 8px;
+          border: 1px solid transparent;
+        }
+
+        .fallback-btn:hover {
+          color: white;
+          background: rgba(255,255,255,0.02);
+          border-color: var(--border-color);
+        }
+
+        @media (max-width: 968px) {
+          .game-banner {
+            grid-template-columns: 1fr;
+            padding: 32px;
+            gap: 32px;
+          }
+
+          .game-details-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
         .main-content {
           padding-top: 0; /* Remove header offset so hero bleeds to the very top */
         }
