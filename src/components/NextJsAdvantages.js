@@ -62,6 +62,7 @@ const slidesData = [
 ];
 
 const liveWebsites = [
+  { name: 'SAI Napoli', url: 'https://sainapoli.com' },
   { name: 'ASPU', url: 'https://www.aspu.it' },
   { name: 'Monica Fiocco', url: 'https://www.monicafiocco.it' },
   { name: 'Web News', url: 'https://template-web-news.vercel.app/' }

@@ -557,9 +557,27 @@ export default function Home() {
       </section>
 
       {/* Services/Soluzioni Section */}
-      <section id="servizi" className="services-section" data-header-theme="dark">
-        <div className="tech-grid"></div>
-        <div className="container">
+      <section id="servizi" className="services-section" data-header-theme="dark" style={{ position: 'relative', overflow: 'hidden' }}>
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: 0.15,
+            pointerEvents: 'none',
+            zIndex: 0
+          }}
+          src="https://www.dropbox.com/scl/fi/1vauhyl0i12c2tjbm2qb6/crea_un_video_senza_musica_mo.mp4?rlkey=brp3cq6kxcc6psno0hc77lwez&st=xaflbeic&raw=1"
+        />
+        <div className="tech-grid" style={{ zIndex: 1 }}></div>
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div className="section-header">
             <span className="section-badge">Cosa Facciamo</span>
             <h2>Soluzioni Digitali <span className="gradient-text">per la tua Crescita</span></h2>
